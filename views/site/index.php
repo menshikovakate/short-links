@@ -8,12 +8,22 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
+$js = <<<JS
+$('#pjax_form').on('pjax:start', function() { 
+    $("#div_with_result").empty();
+});
+JS;
+
+$this->registerJs($js);
+
 $this->title = 'Сервис коротких ссылок + QR';
+
 ?>
 <div class="site-index container">
     <?php Pjax::begin([
         'formSelector' => '#link-enter-form',
         'linkSelector' => 'a:not(.target_blank)',
+        'id' => 'pjax_form'
     ]); ?>
 
     <?php $form = ActiveForm::begin(['id' => 'link-enter-form']); ?>
@@ -32,7 +42,7 @@ $this->title = 'Сервис коротких ссылок + QR';
     <?php if ($result) {
         $short = $result->getShortLink();
     ?>
-        <div class="row text-center">
+        <div id="div_with_result" class="row text-center">
             <div class="col">
                 <img src="<?= $result->getQr(); ?>" height="250px" width="250px">
                 <p>
