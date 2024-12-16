@@ -22,8 +22,9 @@ class SiteController extends Controller
     }
 
     /**
-     * @return string
-     * @throws \yii\db\Exception
+     * Главная страница
+     *
+     * @return mixed
      */
     public function actionIndex()
     {
@@ -45,6 +46,8 @@ class SiteController extends Controller
                 } catch (\Exception $e) {
                     Yii::error('Не удалось сохранить модель Links : ' . $e->getMessage());
                     $result = null;
+
+                    $model->addError('content', 'Сервис временно недоступен, повторите попытку позднее');
                 }
             }
         }
